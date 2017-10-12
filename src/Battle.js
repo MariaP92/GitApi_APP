@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom'
 import './Battle.css';
 import './GitHubApi';
-import {battle, fetchPopularRepos} from './GitHubApi';
+import { battle, fetchPopularRepos } from './GitHubApi';
 
 class Battle extends Component {
 
@@ -19,10 +19,14 @@ class Battle extends Component {
         this.inputValue2 = undefined;
         this.userID = undefined;
         this.userAvatar = undefined;
+        this.userID2 = undefined;
+        this.userAvatar2 = undefined;
         this.state = {
             completed1: false,
             completed2: false,
-            div1: false
+            div1: false,
+            div2: false,
+            battle: false
         }
     }
     inputChange(e) {
@@ -31,7 +35,7 @@ class Battle extends Component {
         if (e.target.value != "") {
             this.setState({
                 completed1: true
-                
+
             });
         } else {
             this.setState({
@@ -40,7 +44,7 @@ class Battle extends Component {
         }
     }
     inputChange2(e) {
-   
+
         this.inputValue2 = e.target.value;
 
         if (e.target.value != "") {
@@ -53,32 +57,70 @@ class Battle extends Component {
             });
         }
     }
-    valueAlert(){
+    valueAlert() {
+        console.log(this.inputValue)
         battle([
-            this.inputValue.toString()]  // https://github.com/honcheng
+            this.inputValue.toString()] // https://github.com/honcheng
+        ).then((results) => {
+            if (results === null) {
+                console.log('Looks like there was an error!\nCheck that both users exist on github.');
+            }
+           
+            this.userID = results[0].profile.login;
+            this.userAvatar = results[0].profile.avatar_url;
+            this.setState({
+                div1: true
+            });
+            console.log("battle result:", results[0].profile.login, results[0].profile.avatar_url);
+        });
+       
+    }
+    valueAlert2() {
+        console.log(this.inputValue2)
+        battle([
+            this.inputValue2.toString()] // https://github.com/honcheng
+        ).then((results) => {
+            if (results === null) {
+                console.log('Looks like there was an error!\nCheck that both users exist on github.');
+            }
+            
+            this.userID2 = results[0].profile.login;
+            this.userAvatar2 = results[0].profile.avatar_url;
+            this.setState({
+                div2: true,
+                battle: true
+            });
+            console.log("battle result:", results[0].profile.login, results[0].profile.avatar_url);
+        });
+        
+    }
+    startBattle(){
+        /*
+        
+        battle(["ivanseidel", // https://github.com/ivanseidel
+        "honcheng"]  // https://github.com/honcheng
           ).then((results) => {
             if (results === null){
                console.log ('Looks like there was an error!\nCheck that both users exist on github.');
             }
-            alert(results[0].profile.login);
-            this.userID = results[0].profile.login;
-            this.userAvatar = results[0].profile.avatar;
-            console.log("battle result:", results[0].profile.login, results[0].profile.avatar, results[1]);
-         });
-        this.setState({
-            div1:true
-        });
-    }
-    valueAlert2(){
-        console.log(this.inputValue.toString());
+            console.log ("battle result:", results[0], results[1]);
+         });*/
     }
 
     render() {
-        const UserInfo = () =>{
-            return(
+        const UserInfo = () => {
+            return (
                 <div>
-                    <img src={this.userAvatar}/>
+                    <img src={this.userAvatar} />
                     <h4>{this.userID}</h4>
+                </div>
+            );
+        }
+        const UserInfo2 = () => {
+            return (
+                <div>
+                    <img src={this.userAvatar2} />
+                    <h4>{this.userID2}</h4>
                 </div>
             );
         }
@@ -101,11 +143,11 @@ class Battle extends Component {
                                     <Button className="btnDisabled" type="submit" disabled>Submit</Button>
                                 }
                             </div>
-                            {this.state.div1?
+                            {this.state.div1 ?
                                 <UserInfo />
                                 :
                                 <div>usuario</div>
-                                
+
                             }
                         </form>
                     </div>
@@ -125,7 +167,23 @@ class Battle extends Component {
                                     <Button className="btnDisabled" type="submit" disabled>Submit</Button>
                                 }
                             </div>
+                            {this.state.div2 ?
+                                <UserInfo2 />
+                                :
+                                <div>usuario2</div>
+
+                            }
                         </form>
+
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-12 col-sm-12 col-xs-12" align="center">
+                        {this.state.battle ?
+                            <Button className="colorBtn" type="submit" onClick={this.startBattle}>Start Battle</Button>
+                            :
+                            <Button className="btnDisabled" type="submit" disabled>Start Battle</Button>
+                        }
                     </div>
                 </div>
             </div>
