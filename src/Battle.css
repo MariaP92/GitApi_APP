@@ -1,0 +1,15 @@
+h1{
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.colorBtn{
+    background: #000000;
+    color: white;
+    font-family: 'Roboto Condensed', sans-serif;
+    width: 10%;
+    
+}
+
+.btnDisabled{
+    background: rgba(202, 202, 202, 0.2);
+}
