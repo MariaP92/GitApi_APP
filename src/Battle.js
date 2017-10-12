@@ -111,7 +111,7 @@ class Battle extends Component {
         const UserInfo = () => {
             return (
                 <div>
-                    <img src={this.userAvatar} />
+                    <img className="sizeImg" src={this.userAvatar} />
                     <h4>{this.userID}</h4>
                 </div>
             );
@@ -119,7 +119,7 @@ class Battle extends Component {
         const UserInfo2 = () => {
             return (
                 <div>
-                    <img src={this.userAvatar2} />
+                    <img className="sizeImg" src={this.userAvatar2} />
                     <h4>{this.userID2}</h4>
                 </div>
             );

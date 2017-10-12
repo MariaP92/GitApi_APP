@@ -13,3 +13,7 @@ h1{
 .btnDisabled{
     background: rgba(202, 202, 202, 0.2);
 }
+
+.sizeImg{
+    width: 60px;
+}
