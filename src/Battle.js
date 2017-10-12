@@ -17,18 +17,21 @@ class Battle extends Component {
         super(props);
         this.inputValue = undefined;
         this.inputValue2 = undefined;
-        this.arrayPlayers = [];
+        this.userID = undefined;
+        this.userAvatar = undefined;
         this.state = {
             completed1: false,
-            completed2: false
+            completed2: false,
+            div1: false
         }
     }
     inputChange(e) {
-        this.arrayPlayers.push(e.target.value);
+
         this.inputValue = e.target.value;
         if (e.target.value != "") {
             this.setState({
                 completed1: true
+                
             });
         } else {
             this.setState({
@@ -37,7 +40,7 @@ class Battle extends Component {
         }
     }
     inputChange2(e) {
-        this.arrayPlayers.push(e.target.value);
+   
         this.inputValue2 = e.target.value;
 
         if (e.target.value != "") {
@@ -52,22 +55,33 @@ class Battle extends Component {
     }
     valueAlert(){
         battle([
-            this.inputValue.toString(), // https://github.com/ivanseidel
-            this.inputValue2.toString()]  // https://github.com/honcheng
+            this.inputValue.toString()]  // https://github.com/honcheng
           ).then((results) => {
             if (results === null){
                console.log ('Looks like there was an error!\nCheck that both users exist on github.');
             }
-            console.log ("battle result:", results[0], results[1]);
+            alert(results[0].profile.login);
+            this.userID = results[0].profile.login;
+            this.userAvatar = results[0].profile.avatar;
+            console.log("battle result:", results[0].profile.login, results[0].profile.avatar, results[1]);
          });
-        
+        this.setState({
+            div1:true
+        });
     }
     valueAlert2(){
         console.log(this.inputValue.toString());
     }
 
     render() {
-
+        const UserInfo = () =>{
+            return(
+                <div>
+                    <img src={this.userAvatar}/>
+                    <h4>{this.userID}</h4>
+                </div>
+            );
+        }
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -87,6 +101,12 @@ class Battle extends Component {
                                     <Button className="btnDisabled" type="submit" disabled>Submit</Button>
                                 }
                             </div>
+                            {this.state.div1?
+                                <UserInfo />
+                                :
+                                <div>usuario</div>
+                                
+                            }
                         </form>
                     </div>
                     <div className="col-md-6 col-sm-12 col-xs-12 text-center">

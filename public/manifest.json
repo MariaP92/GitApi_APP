@@ -1,6 +1,7 @@
 {
   "short_name": "React App",
   "name": "Create React App Sample",
+  "homepage" : "https://mariap92.github.io/GitApi_APP/.",
   "icons": [
     {
       "src": "favicon.ico",
