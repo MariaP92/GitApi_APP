@@ -21,13 +21,15 @@ class Battle extends Component {
         this.userAvatar = undefined;
         this.userID2 = undefined;
         this.userAvatar2 = undefined;
-        this.state = {
-            completed1: false,
-            completed2: false,
-            div1: false,
-            div2: false,
-            battle: false
-        }
+        this.arrayUser1 = undefined,
+            this.arrayUser2 = undefined,
+            this.state = {
+                completed1: false,
+                completed2: false,
+                div1: false,
+                div2: false,
+                battle: false
+            }
     }
     inputChange(e) {
 
@@ -65,7 +67,7 @@ class Battle extends Component {
             if (results === null) {
                 console.log('Looks like there was an error!\nCheck that both users exist on github.');
             }
-           
+
             this.userID = results[0].profile.login;
             this.userAvatar = results[0].profile.avatar_url;
             this.setState({
@@ -73,7 +75,7 @@ class Battle extends Component {
             });
             console.log("battle result:", results[0].profile.login, results[0].profile.avatar_url);
         });
-       
+
     }
     valueAlert2() {
         console.log(this.inputValue2)
@@ -83,7 +85,7 @@ class Battle extends Component {
             if (results === null) {
                 console.log('Looks like there was an error!\nCheck that both users exist on github.');
             }
-            
+
             this.userID2 = results[0].profile.login;
             this.userAvatar2 = results[0].profile.avatar_url;
             this.setState({
@@ -92,19 +94,21 @@ class Battle extends Component {
             });
             console.log("battle result:", results[0].profile.login, results[0].profile.avatar_url);
         });
-        
+
     }
-    startBattle(){
-        /*
-        
-        battle(["ivanseidel", // https://github.com/ivanseidel
-        "honcheng"]  // https://github.com/honcheng
-          ).then((results) => {
-            if (results === null){
-               console.log ('Looks like there was an error!\nCheck that both users exist on github.');
+    startBattle() {
+
+
+        battle([this.inputValue.toString(), // https://github.com/ivanseidel
+        this.inputValue2.toString()]  // https://github.com/honcheng
+        ).then((results) => {
+            if (results === null) {
+                console.log('Looks like there was an error!\nCheck that both users exist on github.');
             }
-            console.log ("battle result:", results[0], results[1]);
-         });*/
+            this.arrayUser1 = results[0];
+            this.arrayUser2 = results[1];
+            console.log("battle result:", this.arrayUser1, this.arrayUser2);
+        });
     }
 
     render() {
@@ -113,6 +117,18 @@ class Battle extends Component {
                 <div>
                     <img className="sizeImg" src={this.userAvatar} />
                     <h4>{this.userID}</h4>
+                </div>
+            );
+        }
+        const Battle = () => {
+            return (
+                <div className="row">
+                    <div className="col-md-6 col-sm-12">
+                        <div>{this.arrayUser1}</div>
+                    </div>
+                    <div className="col-md-6 col-sm-12">
+                        <div>{this.arrayUser2}</div>
+                    </div>
                 </div>
             );
         }
@@ -180,11 +196,18 @@ class Battle extends Component {
                 <div className="row">
                     <div className="col-md-12 col-sm-12 col-xs-12" align="center">
                         {this.state.battle ?
-                            <Button className="colorBtn" type="submit" onClick={this.startBattle}>Start Battle</Button>
+                            <Button className="colorBtn" type="submit" onClick={this.startBattle()}>Start Battle</Button>
                             :
                             <Button className="btnDisabled" type="submit" disabled>Start Battle</Button>
                         }
                     </div>
+                </div>
+                <div className="row">
+                {this.state.battle ?
+                    <Battle/>
+                    :
+                    <div></div>
+                }
                 </div>
             </div>
         );
